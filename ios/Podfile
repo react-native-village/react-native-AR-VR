@@ -1,0 +1,23 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+platform :ios, '9.3'
+
+target 'reactNativeARVR' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  pod 'ViroReact', :path => '../node_modules/react-viro/ios/'
+  pod 'ViroKit_static_lib', :path => '../node_modules/react-viro/ios/dist/ViroRenderer/static_lib'
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if target.name == "react-native-google-maps"
+      target.build_configurations.each do |config|
+        config.build_settings['CLANG_ENABLE_MODULES'] = 'No'
+      end
+    end
+
+    if target.name == "React"
+      target.remove_from_project
+    end
+  end
+end
